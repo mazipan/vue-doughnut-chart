@@ -1,7 +1,6 @@
 <template>
-  <div class="doughnut_chart">
+  <div class="doughnut_chart" style="position:relative;">
     <svg
-      class="doughnut_chart_svg"
       :width="width"
       :height="height"
       viewBox="0 0 200 200">
@@ -16,7 +15,7 @@
             :stroke="foregroundColor"
             :stroke-width="strokeWidth"/>
     </svg>
-    <div class="doughnut_chart_value" :style="valueStyle" v-if="visibleValue">
+    <div v-if="visibleValue" :style="valueStyle">
       {{ percent }}%
     </div>
   </div>
@@ -115,18 +114,10 @@ export default {
         color: this.foregroundColor,
         bottom: `${this.valueFromBottom}px`,
         left: `${this.valueFromLeft}px`,
+        position: 'absolute',
+        'font-size': '18px'
       };
     },
   },
 };
 </script>
-
-<style lang="scss" scoped>
-.doughnut_chart{
-  position: relative;
-  &_value{
-    position: absolute;
-    font-size: 18px;
-  }
-}
-</style>

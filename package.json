@@ -1,7 +1,7 @@
 {
   "name": "vue-doughnut-chart",
   "description": "Doughnut chart component for Vue.js, originally created by Greg Willson",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "license": "MIT",
   "author": "Irfan Maulana (https://github.com/mazipan/)",
   "homepage": "https://mazipan.github.io/vue-doughnut-chart/",
