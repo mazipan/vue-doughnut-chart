@@ -1,3 +1,3 @@
 import DoughnutChart from './DoughnutChart.vue'
 
-export default DoughnutChart;
+export default DoughnutChart
