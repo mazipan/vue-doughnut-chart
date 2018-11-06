@@ -4,16 +4,27 @@
 
     <div class="columns">
       <div class="column">
-        <DoughnutChart :percent="percent"/>
+        <DoughnutChart 
+          :percent="percent" 
+          :visibleValue="true"/>
       </div>
       <div class="column">
-        <DoughnutChart :percent="percent" foregroundColor="green"/>
+        <DoughnutChart 
+          :percent="percent" 
+          :visibleValue="true" 
+          foregroundColor="green"/>
       </div>
       <div class="column">
-        <DoughnutChart :percent="percent" foregroundColor="red"/>
+        <DoughnutChart 
+          :percent="percent" 
+          :visibleValue="true" 
+          foregroundColor="red"/>
       </div>
       <div class="column">
-        <DoughnutChart :percent="percent" foregroundColor="purple"/>
+        <DoughnutChart 
+          :percent="percent" 
+          :visibleValue="true" 
+          foregroundColor="purple"/>
       </div>
     </div>
     <input type="range" min="0" step="1" max="100" v-model="percent"> {{percent}}% <br>

@@ -16,7 +16,7 @@
             :stroke="foregroundColor"
             :stroke-width="strokeWidth"/>
     </svg>
-    <div class="doughnut_chart_value" :style="valueStyle">
+    <div class="doughnut_chart_value" :style="valueStyle" v-if="visibleValue">
       {{ percent }}%
     </div>
   </div>

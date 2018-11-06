@@ -16,6 +16,7 @@ const config = {
   },
   output: {
     filename: "doughnut-chart.js",
+    library: 'DoughnutChart',
     libraryTarget: 'commonjs2'
   },
   resolveLoader: {
