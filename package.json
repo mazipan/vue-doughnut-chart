@@ -1,14 +1,16 @@
 {
   "name": "vue-doughnut-chart",
   "description": "Doughnut chart component for Vue.js, originally created by Greg Willson",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "license": "MIT",
   "author": "Irfan Maulana (https://github.com/mazipan/)",
   "homepage": "https://mazipan.github.io/vue-doughnut-chart/",
   "main": "./dist/doughnut-chart.js",
   "files": [
-    "./dist/doughnut-chart.js",
-    "./dist/doughnut-chart.js.gz"
+    "dist/doughnut-chart.js",
+    "dist/doughnut-chart.js.gz",
+    "src/doughnut-chart.js",
+    "src/DoughnutChart.vue"
   ],
   "keywords": [
     "vue chart",
