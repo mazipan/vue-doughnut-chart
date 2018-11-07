@@ -1,7 +1,5 @@
 <template>
   <div>
-    <h1 class="title has-text-centered">Welcome to Vue-Doughtnut-Chart</h1>
-
     <div class="columns">
       <div class="column">
         <DoughnutChart 
