@@ -1,7 +1,7 @@
 {
   "name": "vue-doughnut-chart",
   "description": "Doughnut chart component for Vue.js, originally created by Greg Willson",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "license": "MIT",
   "author": "Irfan Maulana (https://github.com/mazipan/)",
   "homepage": "https://mazipan.github.io/vue-doughnut-chart/",
@@ -34,8 +34,8 @@
     "publish-demo": "node ./publish-demo.js"
   },
   "devDependencies": {
-    "@babel/core": "^7.1.2",
-    "@babel/preset-env": "^7.1.0",
+    "@babel/core": "^7.1.5",
+    "@babel/preset-env": "^7.1.5",
     "@vue/test-utils": "^1.0.0-beta.25",
     "autoprefixer": "^9.3.1",
     "babel-core": "7.0.0-bridge.0",

@@ -17,3 +17,4 @@ deploy:
   local-dir: /dist-demo
   verbose: true
   on:
+    branch: master

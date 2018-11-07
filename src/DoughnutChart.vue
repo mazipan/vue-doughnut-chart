@@ -16,7 +16,8 @@
             :stroke-width="strokeWidth"/>
     </svg>
     <div v-if="visibleValue" :style="valueStyle">
-      {{ percent }}%
+      <span v-if="visibleEmptyText">{{ emptyText }}</span>
+      <span v-else>{{ percent }}%</span>
     </div>
   </div>
 </template>
@@ -56,6 +57,10 @@ export default {
     visibleValue: {
       type: Boolean,
       default: false,
+    },
+    emptyText: {
+      type: String,
+      default: '',
     },
   },
   data() {
@@ -118,6 +123,9 @@ export default {
         'font-size': '18px'
       };
     },
+    visibleEmptyText() {
+      return ((this.percent === '0' || this.percent === 0) && this.emptyText !== '')
+    }
   },
 };
 </script>

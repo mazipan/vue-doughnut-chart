@@ -2,9 +2,7 @@
 
 > Doughnut chart component for Vue.js, originally created by Greg Willson in [codepen](https://codepen.io/biomassives/pen/yaZwQw)
 
-
 [![version](https://img.shields.io/npm/v/vue-doughnut-chart.svg)](https://www.npmjs.com/package/vue-doughnut-chart) [![downloads](https://img.shields.io/npm/dt/vue-doughnut-chart.svg)](https://www.npmjs.com/package/vue-doughnut-chart) [![Travis](https://img.shields.io/travis/mazipan/vue-doughnut-chart.svg)](https://travis-ci.org/mazipan/vue-doughnut-chart)
-
 
 ## Demo
 
@@ -42,6 +40,7 @@ export default {
 | `width`             | Number    |  200          |                              |
 | `height`            | Number    |  200          |                              |
 | `visibleValue`      | Boolean   |  false        |                              |
+| `emptyText`         | String    |  ''           |                              |
 
 -----
 
