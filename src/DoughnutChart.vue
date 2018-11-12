@@ -16,8 +16,8 @@
             :stroke-width="strokeWidth"/>
     </svg>
     <div v-if="visibleValue" :style="valueStyle">
-      <span v-if="visibleEmptyText">{{ emptyText }}</span>
-      <span v-else>{{ percent }}%</span>
+      <span v-if="visibleEmptyText" :class="classValue">{{ emptyText }}</span>
+      <span v-else :class="classValue">{{ percent }}%</span>
     </div>
   </div>
 </template>
@@ -59,6 +59,10 @@ export default {
       default: false,
     },
     emptyText: {
+      type: String,
+      default: '',
+    },
+    classValue: {
       type: String,
       default: '',
     },

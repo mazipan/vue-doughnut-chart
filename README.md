@@ -41,6 +41,7 @@ export default {
 | `height`            | Number    |  200          |                              |
 | `visibleValue`      | Boolean   |  false        |                              |
 | `emptyText`         | String    |  ''           |                              |
+| `classValue`        | String    |  ''           |                              |
 
 -----
 
