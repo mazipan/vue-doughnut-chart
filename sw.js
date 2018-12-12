@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/vue-doughnut-chart/precache-manifest.e7ce0cb184a7e284974a63c6e555e4f3.js"
+  "/vue-doughnut-chart/precache-manifest.a488555af5c090af87124a93c913d416.js"
 );
 
 /**
