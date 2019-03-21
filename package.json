@@ -39,18 +39,18 @@
     "@vue/test-utils": "^1.0.0-beta.25",
     "autoprefixer": "^9.3.1",
     "babel-core": "7.0.0-bridge.0",
-    "babel-jest": "23.6.0",
+    "babel-jest": "24.5.0",
     "babel-loader": "^8.0.4",
     "compression-webpack-plugin": "^2.0.0",
-    "copy-webpack-plugin": "4.6.0",
+    "copy-webpack-plugin": "5.0.1",
     "cross-env": "^5.2.0",
-    "css-loader": "^1.0.1",
+    "css-loader": "^2.1.1",
     "eslint": "^5.9.0",
     "eslint-plugin-html": "^5.0.0",
-    "eslint-plugin-vue": "4.7.1",
+    "eslint-plugin-vue": "5.2.2",
     "gh-pages": "^2.0.1",
     "html-webpack-plugin": "^3.2.0",
-    "jest": "^23.6.0",
+    "jest": "^24.5.0",
     "jest-serializer-vue": "^2.0.2",
     "node-sass": "^4.10.0",
     "sass-loader": "^7.1.0",
@@ -64,7 +64,7 @@
     "webpack-cli": "^3.1.2",
     "webpack-dev-server": "^3.1.10",
     "webpack-serve": "^2.0.2",
-    "workbox-webpack-plugin": "^3.6.3"
+    "workbox-webpack-plugin": "^4.1.1"
   },
   "dependencies": {}
 }
