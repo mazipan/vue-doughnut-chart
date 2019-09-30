@@ -15,9 +15,15 @@
             :stroke="foregroundColor"
             :stroke-width="strokeWidth"/>
     </svg>
-    <div v-if="visibleValue" :style="valueStyle">
-      <span v-if="visibleEmptyText" :class="classValue">{{ emptyText }}</span>
-      <span v-else :class="classValue">{{ percent }}%</span>
+    <div v-if="visibleValue">
+      <template v-if="passTextAsHtml">
+        <div v-if="customText.length" :style="customTextStyle" v-html="customText"></div>
+      </template>
+      <template v-else>
+        <div v-if="customText.length" v-html="customText" :class="classValue" :style="customTextStyle"></div>
+        <span v-else-if="visibleEmptyText" :class="classValue" :style="valueStyle">{{ emptyText }}</span>
+        <span v-else :class="classValue" :style="valueStyle">{{ percent }}%</span>
+      </template>
     </div>
   </div>
 </template>
@@ -27,7 +33,6 @@ export default {
   name: 'DoughnutChart',
   props: {
     percent: {
-      type: Number,
       default: 0,
     },
     foregroundColor: {
@@ -66,6 +71,14 @@ export default {
       type: String,
       default: '',
     },
+    customText: {
+      type: String,
+      default: '',
+    },
+    passTextAsHtml: {
+      type: Boolean,
+      default: false,
+    }
   },
   data() {
     return {};
@@ -73,7 +86,7 @@ export default {
   computed: {
     // If more than 50% filled we need to switch arc drawing mode from less than 180 deg to more than 180 deg
     largeArc() {
-      return this.percent < 50 ? 0 : 1;
+      return parseInt(this.percent) < 50 ? 0 : 1;
     },
     // Where to put x coordinate of center of circle
     x() {
@@ -101,7 +114,7 @@ export default {
     },
     // If we reach full circle we need to complete the circle, this ties into the rounding error in X coordinate above
     z() {
-      return this.percent === 100 ? 'z' : '';
+      return parseInt(this.percent) === 100 ? 'z' : '';
     },
     dBg() {
       return `M ${this.x} ${this.y} A ${this.radius} ${this.radius} 0 1 1 ${this
@@ -113,10 +126,18 @@ export default {
       } 1 ${this.endX} ${this.endY} ${this.z}`;
     },
     valueFromBottom() {
-      return (this.height / 2) - this.strokeWidth;
+      if (this.strokeWidth < 15) {
+        return (this.height / 2) - this.strokeWidth/1.5;
+      } else {
+        return (this.height / 2) - this.strokeWidth/3;
+      }
     },
     valueFromLeft() {
-      return (this.width / 2) - this.strokeWidth;
+      if (this.strokeWidth < 15) {
+        return (this.width / 2) - this.strokeWidth;
+      } else {
+        return (this.width / 2) - this.strokeWidth;
+      }
     },
     valueStyle() {
       return {
@@ -128,8 +149,26 @@ export default {
       };
     },
     visibleEmptyText() {
-      return ((this.percent === '0' || this.percent === 0) && this.emptyText !== '')
+      return ( parseInt(this.percent) === 0 && this.emptyText !== '')
+    },
+     customTextStyle(){
+    return {
+      color: this.foregroundColor,
+      width: `${this.width - 6 * this.strokeWidth}px`,
+      height: `${this.height/3}px`,
+      bottom: `${this.height/2 - this.strokeWidth * 3}px`,
+      left: `${this.valueFromLeft/3}px`,
+      position: 'absolute',
+      verticalAlign: 'middle',
+      wordBreak: 'break-all', 
+      wordWrap: 'break-word',
+      fontSize: '14px',
+      textAlign: 'center',
     }
   },
+ 
+  }
 };
 </script>
+
+

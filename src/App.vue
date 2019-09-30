@@ -25,10 +25,19 @@
         <DoughnutChart 
           :percent="percent" 
           :visibleValue="true" 
-          foregroundColor="purple"
-          emptyText="N/A"/>
+          :foregroundColor="'purple'"
+          :emptyText="'N/A'"
+          />
       </div>
+      <div class="column">
+        <DoughnutChart 
+          :percent="percent" 
+          :visibleValue="true" 
+          :foregroundColor="'black'"
+          :customText="'My value is over <br/> 9000'"
+          />
     </div>
+  </div>
     <div class="centered-div">
       <input type="range" min="0" step="1" max="100" v-model="percent"><br> 
       <h3 class="subtitle">{{percent}}%</h3>
@@ -46,7 +55,8 @@ export default {
   },
   data() {
     return {
-      percent: 25
+      percent: '25',
+      text: 'Download Speed 8 Mbps',
     }
   }
 }
