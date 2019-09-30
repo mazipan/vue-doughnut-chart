@@ -1,26 +1,22 @@
 <template>
   <div class="doughnut_chart" style="position:relative;">
-    <svg
-      :width="width"
-      :height="height"
-      viewBox="0 0 200 200">
+    <svg :width="width" :height="height" viewBox="0 0 200 200">
       <!-- Background circle -->
-      <path :d="dBg"
-            fill="transparent"
-            :stroke="backgroundColor"
-            :stroke-width="strokeWidth"/>
+      <path :d="dBg" fill="transparent" :stroke="backgroundColor" :stroke-width="strokeWidth" />
       <!-- Move to start position, start drawing arc -->
-      <path :d="d"
-            fill="transparent"
-            :stroke="foregroundColor"
-            :stroke-width="strokeWidth"/>
+      <path :d="d" fill="transparent" :stroke="foregroundColor" :stroke-width="strokeWidth" />
     </svg>
     <div v-if="visibleValue">
       <template v-if="passTextAsHtml">
         <div v-if="customText.length" :style="customTextStyle" v-html="customText"></div>
       </template>
       <template v-else>
-        <div v-if="customText.length" v-html="customText" :class="classValue" :style="customTextStyle"></div>
+        <div
+          v-if="customText.length"
+          v-html="customText"
+          :class="classValue"
+          :style="customTextStyle"
+        ></div>
         <span v-else-if="visibleEmptyText" :class="classValue" :style="valueStyle">{{ emptyText }}</span>
         <span v-else :class="classValue" :style="valueStyle">{{ percent }}%</span>
       </template>
@@ -30,54 +26,54 @@
 
 <script>
 export default {
-  name: 'DoughnutChart',
+  name: "DoughnutChart",
   props: {
     percent: {
-      default: 0,
+      default: 0
     },
     foregroundColor: {
       type: String,
-      default: '#1993ff',
+      default: "#1993ff"
     },
     backgroundColor: {
       type: String,
-      default: '#ecf6ff',
+      default: "#ecf6ff"
     },
     strokeWidth: {
       type: Number,
-      default: 10,
+      default: 10
     },
     radius: {
       type: Number,
-      default: 85,
+      default: 85
     },
     width: {
       type: Number,
-      default: 200,
+      default: 200
     },
     height: {
       type: Number,
-      default: 200,
+      default: 200
     },
     visibleValue: {
       type: Boolean,
-      default: false,
+      default: false
     },
     emptyText: {
       type: String,
-      default: '',
+      default: ""
     },
     classValue: {
       type: String,
-      default: '',
+      default: ""
     },
     customText: {
       type: String,
-      default: '',
+      default: ""
     },
     passTextAsHtml: {
       type: Boolean,
-      default: false,
+      default: false
     }
   },
   data() {
@@ -114,29 +110,27 @@ export default {
     },
     // If we reach full circle we need to complete the circle, this ties into the rounding error in X coordinate above
     z() {
-      return parseInt(this.percent) === 100 ? 'z' : '';
+      return parseInt(this.percent) === 100 ? "z" : "";
     },
     dBg() {
       return `M ${this.x} ${this.y} A ${this.radius} ${this.radius} 0 1 1 ${this
         .x - 0.0001} ${this.y} z`;
     },
     d() {
-      return `M ${this.x} ${this.y} A ${this.radius} ${this.radius} 0 ${
-        this.largeArc
-      } 1 ${this.endX} ${this.endY} ${this.z}`;
+      return `M ${this.x} ${this.y} A ${this.radius} ${this.radius} 0 ${this.largeArc} 1 ${this.endX} ${this.endY} ${this.z}`;
     },
     valueFromBottom() {
       if (this.strokeWidth < 15) {
-        return (this.height / 2) - this.strokeWidth/1.5;
+        return this.height / 2 - this.strokeWidth / 1.5;
       } else {
-        return (this.height / 2) - this.strokeWidth/3;
+        return this.height / 2 - this.strokeWidth / 3;
       }
     },
     valueFromLeft() {
       if (this.strokeWidth < 15) {
-        return (this.width / 2) - this.strokeWidth;
+        return this.width / 2 - this.strokeWidth;
       } else {
-        return (this.width / 2) - this.strokeWidth;
+        return this.width / 2 - this.strokeWidth;
       }
     },
     valueStyle() {
@@ -144,29 +138,28 @@ export default {
         color: this.foregroundColor,
         bottom: `${this.valueFromBottom}px`,
         left: `${this.valueFromLeft}px`,
-        position: 'absolute',
-        'font-size': '18px'
+        position: "absolute",
+        "font-size": "18px"
       };
     },
     visibleEmptyText() {
-      return ( parseInt(this.percent) === 0 && this.emptyText !== '')
+      return parseInt(this.percent) === 0 && this.emptyText !== "";
     },
-     customTextStyle(){
-    return {
-      color: this.foregroundColor,
-      width: `${this.width - 6 * this.strokeWidth}px`,
-      height: `${this.height/3}px`,
-      bottom: `${this.height/2 - this.strokeWidth * 3}px`,
-      left: `${this.valueFromLeft/3}px`,
-      position: 'absolute',
-      verticalAlign: 'middle',
-      wordBreak: 'break-all', 
-      wordWrap: 'break-word',
-      fontSize: '14px',
-      textAlign: 'center',
+    customTextStyle() {
+      return {
+        color: this.foregroundColor,
+        width: `${this.width - 6 * this.strokeWidth}px`,
+        height: `${this.height / 3}px`,
+        bottom: `${this.height / 2 - this.strokeWidth * 3}px`,
+        left: `${this.valueFromLeft / 3}px`,
+        position: "absolute",
+        verticalAlign: "middle",
+        wordBreak: "break-all",
+        wordWrap: "break-word",
+        fontSize: "14px",
+        textAlign: "center"
+      };
     }
-  },
- 
   }
 };
 </script>
