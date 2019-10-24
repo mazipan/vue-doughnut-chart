@@ -17,8 +17,5 @@ module.exports = {
     quotes: ['error', 'single'],
     semi: ['error', 'never'],
     'no-console': 'off'
-  },
-  overrides: {
-    files: ['**/*.js', '**/*.vue']
   }
 };
