@@ -1,6 +1,6 @@
 <template>
   <div class="doughnut_chart" style="position:relative;">
-    <svg :width="width" :height="height" viewBox="0 0 200 200">
+    <svg :width="width" :height="height" viewBox="0 0 200 200" style="stroke-linecap:round;">
       <!-- Background circle -->
       <path :d="dBg" fill="transparent" :stroke="backgroundColor" :stroke-width="strokeWidth" />
       <!-- Move to start position, start drawing arc -->
