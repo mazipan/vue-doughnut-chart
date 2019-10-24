@@ -2,7 +2,7 @@
 
 > Doughnut chart component for Vue.js, originally created by Greg Willson in [codepen](https://codepen.io/biomassives/pen/yaZwQw)
 
-[![version](https://img.shields.io/npm/v/vue-doughnut-chart.svg)](https://www.npmjs.com/package/vue-doughnut-chart) ![minified](https://badgen.net/bundlephobia/minzip/vue-doughnut-chart) [![downloads](https://img.shields.io/npm/dt/vue-doughnut-chart.svg)](https://www.npmjs.com/package/vue-doughnut-chart) [![Travis](https://img.shields.io/travis/mazipan/vue-doughnut-chart.svg)](https://travis-ci.org/mazipan/vue-doughnut-chart)
+[![version](https://img.shields.io/npm/v/vue-doughnut-chart.svg)](https://www.npmjs.com/package/vue-doughnut-chart) ![minified](https://badgen.net/bundlephobia/minzip/vue-doughnut-chart) [![downloads](https://img.shields.io/npm/dt/vue-doughnut-chart.svg)](https://www.npmjs.com/package/vue-doughnut-chart) [![Travis](https://img.shields.io/travis/mazipan/vue-doughnut-chart.svg)](https://travis-ci.org/mazipan/vue-doughnut-chart) [![Dependabot Status](https://api.dependabot.com/badges/status?host=github&repo=mazipan/vue-doughnut-chart)](https://dependabot.com)
 
 ## Demo
 
