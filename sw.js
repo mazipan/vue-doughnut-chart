@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/vue-doughnut-chart/precache-manifest.5edb672a3c7c9a817be7e956c0057793.js"
+  "/vue-doughnut-chart/precache-manifest.f4112b2099400daac2749d4a87900d7c.js"
 );
 
 self.addEventListener('message', (event) => {
