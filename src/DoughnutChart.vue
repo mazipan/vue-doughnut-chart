@@ -82,6 +82,10 @@ export default {
       type: Number,
       default: 200
     },
+    classValue: {
+      type: String,
+      default: ""
+    },
     visibleValue: {
       type: Boolean,
       default: false
@@ -95,10 +99,6 @@ export default {
       type: Number,
       default: 2000,
       required: false
-    },
-    classValue: {
-      type: String,
-      default: ""
     },
     customText: {
       type: String,
