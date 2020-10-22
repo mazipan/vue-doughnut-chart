@@ -2,9 +2,9 @@
   <div class='doughnut_chart' style='position:relative;'>
     <svg :width='width' :height='height' viewBox='0 0 200 200' style='stroke-linecap:round;'>
       <!-- Background circle -->
-      <path :d='dBg' fill='transparent' :stroke='backgroundColor' :stroke-width='strokeWidth' />
+      <path :d='dBg' fill='transparent' :stroke="validateColor(backgroundColor) ? backgroundColor : '#ecf6ff'" :stroke-width='strokeWidth' />
       <!-- Move to start position, start drawing arc -->
-      <path :d='d' fill='transparent' :stroke='foregroundColor' :stroke-width='strokeWidth' />
+      <path :d='d' fill='transparent' :stroke="validateColor(foregroundColor) ? foregroundColor : '#1993ff'" :stroke-width='strokeWidth' />
     </svg>
     <div
         v-if='visibleValue'
@@ -154,20 +154,20 @@ export default {
       return `M ${ this.x } ${ this.y } A ${ this.radius } ${ this.radius } 0 ${ this.largeArc } 1 ${ this.endX } ${ this.endY } ${ this.z }`;
     },
     valueStyle() {
+      let percentColor = this.validateColor(this.foregroundColor) ? this.foregroundColor : '#1993ff'
       let percentSize = ( this.customPercentSize && this.customPercentSize < 60 ) ? `${ this.customPercentSize }px` : false
       return {
-        color: this.foregroundColor,
+        color: percentColor,
         fontSize: percentSize,
         margin: '0 auto'
       };
     },
     customTextStyle() {
-      let textColor = this.customTextColor ? this.customTextColor : this.foregroundColor
+      let textColor = this.validateColor(this.customTextColor) ? this.customTextColor : this.foregroundColor
       let textWidth = this.strokeWidth ? `calc(100% - ${ this.strokeWidth * 2 }px)` : 'calc(100% - 20px)'
       let textPadding = (this.strokeWidth && this.strokeWidth > 7 && this.strokeWidth <= 18) ? `0 ${ this.strokeWidth }px` : '0 10px'
       let textSize = ( this.customTextSize && this.customTextSize <= 22 ) ? `${ this.customTextSize }px` : false
       let customTopMargin = (this.strokeWidth && this.strokeWidth > 7 && this.strokeWidth <= 18) ? this.strokeWidth : 5
-
       return {
         color: textColor,
         width: textWidth,
@@ -178,6 +178,14 @@ export default {
         wordBreak: "break-all",
         wordWrap: "break-word"
       };
+    }
+  },
+  methods: {
+    validateColor(string) {
+      let s = new Option().style
+      s.color = string
+      // must match a valid css color or hex value
+      return s.color !== '' || /^#([0-9A-F]{3}){1,2}$/i.test(s.color);
     }
   }
 };
