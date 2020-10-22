@@ -100,18 +100,18 @@ export default {
       default: 2000,
       required: false
     },
-    customText: {
-      type: String,
-      default: ""
+    customPercentSize: {
+      type: Number,
+      default: 40,
+      required: false
     },
     passTextAsHtml: {
       type: Boolean,
       default: false
     },
-    customPercentSize: {
-      type: Number,
-      default: 40,
-      required: false
+    customText: {
+      type: String,
+      default: ""
     },
     customTextColor: {
       type: String,
