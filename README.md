@@ -43,6 +43,7 @@ export default {
 | `visibleValue`        | Boolean   |  false        |                                             |
 | `valueCountUp`        | Boolean   |  false        |                                             |
 | `valueCountUpDuration`| Number    |  2000         | Number in milliseconds                      |
+| `valueCountUpDelay`   | Number    |  500          | Percent count-up delay (for changing values)|
 | `customPercentSize`   | Number    |  40           | Percent font size in pixels (max 60)        |
 | `passTextAsHtml`      | Boolean   |  false        | Allows to add simple html into label        |
 | `customText`          | String    |  ''           | Label value                                 |
