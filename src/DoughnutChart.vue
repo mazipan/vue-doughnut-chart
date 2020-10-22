@@ -122,11 +122,12 @@ export default {
       type: Number,
       default: 15,
       required: false
-    }
+    },
   },
   data() {
     return {
-      countingUpValue: 0
+      countingUpValue: 0,
+      delayTimer: null
     };
   },
   computed: {
@@ -199,6 +200,17 @@ export default {
   mounted() {
     if (this.valueCountUp && this.percent) {
       this.countUpPercent()
+    }
+  },
+  watch: {
+    percent() {
+      if (this.delayTimer) {
+        clearTimeout(this.delayTimer)
+        this.delayTimer = null
+      }
+      this.delayTimer = setTimeout(() => {
+        this.countUpPercent()
+      }, 500)
     }
   },
   methods: {
