@@ -2,10 +2,12 @@
   <div class='doughnut_chart' style='position:relative;'>
     <svg :width='width' :height='height' viewBox='0 0 200 200' style='stroke-linecap:round;'>
       <!-- Background circle -->
-      <path :d='dBg' fill='transparent' :stroke="validateColor(backgroundColor) ? backgroundColor : '#ecf6ff'"
+      <path :d='dBg' fill='transparent'
+            :stroke="(backgroundColor && validateColor(backgroundColor)) ? backgroundColor : '#ecf6ff'"
             :stroke-width='strokeWidth' />
       <!-- Move to start position, start drawing arc -->
-      <path :d='d' fill='transparent' :stroke="validateColor(foregroundColor) ? foregroundColor : '#1993ff'"
+      <path :d='d' fill='transparent'
+            :stroke="(foregroundColor && validateColor(foregroundColor)) ? foregroundColor : '#1993ff'"
             :stroke-width='strokeWidth' />
     </svg>
     <div
@@ -168,7 +170,7 @@ export default {
       return `M ${ this.x } ${ this.y } A ${ this.radius } ${ this.radius } 0 ${ this.largeArc } 1 ${ this.endX } ${ this.endY } ${ this.z }`;
     },
     valueStyle() {
-      let percentColor = this.validateColor(this.foregroundColor) ? this.foregroundColor : '#1993ff'
+      let percentColor = ( this.foregroundColor && this.validateColor(this.foregroundColor) ) ? this.foregroundColor : '#1993ff'
       let percentSize = ( this.customPercentSize && this.customPercentSize < 60 ) ? `${ this.customPercentSize }px` : false
       return {
         color: percentColor,
@@ -177,7 +179,7 @@ export default {
       };
     },
     customTextStyle() {
-      let textColor = this.validateColor(this.customTextColor) ? this.customTextColor : this.foregroundColor
+      let textColor = ( this.customTextColor && this.validateColor(this.customTextColor) ) ? this.customTextColor : this.foregroundColor
       let textWidth = this.strokeWidth ? `calc(100% - ${ this.strokeWidth * 2 }px)` : 'calc(100% - 20px)'
       let textPadding = ( this.strokeWidth && this.strokeWidth > 7 && this.strokeWidth <= 18 ) ? `0 ${ this.strokeWidth }px` : '0 10px'
       let textSize = ( this.customTextSize && this.customTextSize <= 22 ) ? `${ this.customTextSize }px` : false
@@ -194,7 +196,7 @@ export default {
       };
     }
   },
-  mounted () {
+  mounted() {
     if (this.valueCountUp && this.percent) {
       this.countUpPercent()
     }
@@ -215,7 +217,7 @@ export default {
       const totalFrames = Math.round(animationDuration / frameDuration); // Use that to calculate how many frames we need to complete the animation
       const easeOutQuad = t => t * ( 2 - t ); // An ease-out function that slows the count as it progresses
       let frame = 0; // The animation function, which takes an Element
-      const counter = setInterval(() =>  {
+      const counter = setInterval(() => {
         frame++
         const progress = easeOutQuad(frame / totalFrames) // Calculate our progress as a value between 0 and 1
         if (this.countingUpValue !== this.percent) {
