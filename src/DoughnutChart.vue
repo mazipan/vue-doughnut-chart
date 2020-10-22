@@ -2,9 +2,11 @@
   <div class='doughnut_chart' style='position:relative;'>
     <svg :width='width' :height='height' viewBox='0 0 200 200' style='stroke-linecap:round;'>
       <!-- Background circle -->
-      <path :d='dBg' fill='transparent' :stroke="validateColor(backgroundColor) ? backgroundColor : '#ecf6ff'" :stroke-width='strokeWidth' />
+      <path :d='dBg' fill='transparent' :stroke="validateColor(backgroundColor) ? backgroundColor : '#ecf6ff'"
+            :stroke-width='strokeWidth' />
       <!-- Move to start position, start drawing arc -->
-      <path :d='d' fill='transparent' :stroke="validateColor(foregroundColor) ? foregroundColor : '#1993ff'" :stroke-width='strokeWidth' />
+      <path :d='d' fill='transparent' :stroke="validateColor(foregroundColor) ? foregroundColor : '#1993ff'"
+            :stroke-width='strokeWidth' />
     </svg>
     <div
         v-if='visibleValue'
@@ -23,7 +25,7 @@
             :class='classValue'
             :style='valueStyle'
         >
-          {{ percent + '%' }}
+          {{ valueCountUp ? countingUpValue + '%' : percent + '%' }}
         </h1>
         <div
             v-if='customText.length'
@@ -82,6 +84,16 @@ export default {
       type: Boolean,
       default: false
     },
+    valueCountUp: {
+      type: Boolean,
+      default: false,
+      required: false
+    },
+    valueCountUpDuration: {
+      type: Number,
+      default: 2000,
+      required: false
+    },
     classValue: {
       type: String,
       default: ""
@@ -111,7 +123,9 @@ export default {
     }
   },
   data() {
-    return {};
+    return {
+      countingUpValue: 0
+    };
   },
   computed: {
     // If more than 50% filled we need to switch arc drawing mode from less than 180 deg to more than 180 deg
@@ -165,9 +179,9 @@ export default {
     customTextStyle() {
       let textColor = this.validateColor(this.customTextColor) ? this.customTextColor : this.foregroundColor
       let textWidth = this.strokeWidth ? `calc(100% - ${ this.strokeWidth * 2 }px)` : 'calc(100% - 20px)'
-      let textPadding = (this.strokeWidth && this.strokeWidth > 7 && this.strokeWidth <= 18) ? `0 ${ this.strokeWidth }px` : '0 10px'
+      let textPadding = ( this.strokeWidth && this.strokeWidth > 7 && this.strokeWidth <= 18 ) ? `0 ${ this.strokeWidth }px` : '0 10px'
       let textSize = ( this.customTextSize && this.customTextSize <= 22 ) ? `${ this.customTextSize }px` : false
-      let customTopMargin = (this.strokeWidth && this.strokeWidth > 7 && this.strokeWidth <= 18) ? this.strokeWidth : 5
+      let customTopMargin = ( this.strokeWidth && this.strokeWidth > 7 && this.strokeWidth <= 18 ) ? this.strokeWidth : 5
       return {
         color: textColor,
         width: textWidth,
@@ -180,12 +194,38 @@ export default {
       };
     }
   },
+  mounted () {
+    if (this.valueCountUp && this.percent) {
+      this.countUpPercent()
+    }
+  },
   methods: {
     validateColor(string) {
       let s = new Option().style
       s.color = string
       // must match a valid css color or hex value
       return s.color !== '' || /^#([0-9A-F]{3}){1,2}$/i.test(s.color);
+    },
+    countUpPercent() {
+      if (this.percent === this.countingUpValue) {
+        return;
+      }
+      const animationDuration = this.valueCountUpDuration;
+      const frameDuration = 1000 / 60; // Calculate how long each 'frame' should last if we want to update the animation 60 times per second
+      const totalFrames = Math.round(animationDuration / frameDuration); // Use that to calculate how many frames we need to complete the animation
+      const easeOutQuad = t => t * ( 2 - t ); // An ease-out function that slows the count as it progresses
+      let frame = 0; // The animation function, which takes an Element
+      const counter = setInterval(() =>  {
+        frame++
+        const progress = easeOutQuad(frame / totalFrames) // Calculate our progress as a value between 0 and 1
+        if (this.countingUpValue !== this.percent) {
+          this.countingUpValue = Math.round(this.percent * progress) // Use the progress value to calculate the current count
+        }
+        if (frame === totalFrames) {
+          clearInterval(counter)
+        }
+      }, frameDuration);
+
     }
   }
 };

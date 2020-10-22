@@ -26,6 +26,8 @@
           :percent="percent"
           :visibleValue="true"
           :foregroundColor="'purple'"
+          :value-count-up="true"
+          :value-count-up-duration="3000"
           />
       </div>
       <div class="column">
