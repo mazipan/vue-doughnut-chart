@@ -26,7 +26,6 @@
           :percent="percent"
           :visibleValue="true"
           :foregroundColor="'purple'"
-          :emptyText="'N/A'"
           />
       </div>
       <div class="column">
