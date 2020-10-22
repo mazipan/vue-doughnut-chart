@@ -43,11 +43,11 @@ export default {
 | `visibleValue`        | Boolean   |  false        |                                             |
 | `valueCountUp`        | Boolean   |  false        |                                             |
 | `valueCountUpDuration`| Number    |  2000         | Number in milliseconds                      |
-| `customPercentSize`   | Number    |  40           | Percent font size in pixels                 |
+| `customPercentSize`   | Number    |  40           | Percent font size in pixels (max 60)        |
 | `passTextAsHtml`      | Boolean   |  false        | Allows to add simple html into label        |
 | `customText`          | String    |  ''           | Label value                                 |
 | `customTextColor`     | String    |  '#1993ff'    | Valid HEX color code or CSS color for label |
-| `customTextSize`      | Number    |  15           | Label font size in pixels                   |
+| `customTextSize`      | Number    |  15           | Label font size in pixels (max 22)          |
 
 -----
 
