@@ -15,30 +15,34 @@
             v-if='customText.length'
             :style='customTextStyle'
             v-html='customText'
-        ></div>
+        />
       </template>
       <template v-else>
+        <h1
+            v-if='percent'
+            :class='classValue'
+            :style='valueStyle'
+        >
+          {{ percent + '%' }}
+        </h1>
         <div
             v-if='customText.length'
             v-html='customText'
             :class='classValue'
             :style='customTextStyle'
         />
-        <p
-            v-else-if='visibleEmptyText'
-            :class='classValue'
-            :style='valueStyle'
-        >
-          {{ emptyText }}
-        </p>
-        <h1
-            v-else
-            :class='classValue'
-            :style='valueStyle'
-        >
-          {{ percent + '%' }}
-        </h1>
       </template>
+    </div>
+    <div
+        v-else-if='customText.length'
+        class='value-container'
+    >
+      <div
+          v-if='customText.length'
+          v-html='customText'
+          :class='classValue'
+          :style='customTextStyle'
+      />
     </div>
   </div>
 </template>
@@ -78,10 +82,6 @@ export default {
       type: Boolean,
       default: false
     },
-    emptyText: {
-      type: String,
-      default: ""
-    },
     classValue: {
       type: String,
       default: ""
@@ -97,6 +97,16 @@ export default {
     customPercentSize: {
       type: Number,
       default: 40,
+      required: false
+    },
+    customTextColor: {
+      type: String,
+      default: '',
+      required: false
+    },
+    customTextSize: {
+      type: Number,
+      default: 15,
       required: false
     }
   },
@@ -143,43 +153,30 @@ export default {
     d() {
       return `M ${ this.x } ${ this.y } A ${ this.radius } ${ this.radius } 0 ${ this.largeArc } 1 ${ this.endX } ${ this.endY } ${ this.z }`;
     },
-    valueFromBottom() {
-      if (this.strokeWidth < 15) {
-        return this.height / 2 - this.strokeWidth / 1.5;
-      } else {
-        return this.height / 2 - this.strokeWidth / 3;
-      }
-    },
-    valueFromLeft() {
-      if (this.strokeWidth < 15) {
-        return this.width / 2 - this.strokeWidth;
-      } else {
-        return this.width / 2 - this.strokeWidth;
-      }
-    },
     valueStyle() {
-      let percentSize = (this.customPercentSize && this.customPercentSize < 60) ? this.customPercentSize : false
+      let percentSize = ( this.customPercentSize && this.customPercentSize < 60 ) ? `${ this.customPercentSize }px` : false
       return {
         color: this.foregroundColor,
-        fontSize: `${ percentSize }px`
+        fontSize: percentSize,
+        margin: '0 auto'
       };
     },
-    visibleEmptyText() {
-      return parseInt(this.percent) === 0 && this.emptyText !== "";
-    },
     customTextStyle() {
+      let textColor = this.customTextColor ? this.customTextColor : this.foregroundColor
+      let textWidth = this.strokeWidth ? `calc(100% - ${ this.strokeWidth * 2 }px)` : 'calc(100% - 20px)'
+      let textPadding = (this.strokeWidth && this.strokeWidth > 7 && this.strokeWidth <= 18) ? `0 ${ this.strokeWidth }px` : '0 10px'
+      let textSize = ( this.customTextSize && this.customTextSize <= 22 ) ? `${ this.customTextSize }px` : false
+      let customTopMargin = (this.strokeWidth && this.strokeWidth > 7 && this.strokeWidth <= 18) ? this.strokeWidth : 5
+
       return {
-        color: this.foregroundColor,
-        width: `${ this.width - 6 * this.strokeWidth }px`,
-        height: `${ this.height / 3 }px`,
-        bottom: `${ this.height / 2 - this.strokeWidth * 3 }px`,
-        left: `${ this.valueFromLeft / 3 }px`,
-        position: "absolute",
-        verticalAlign: "middle",
+        color: textColor,
+        width: textWidth,
+        padding: textPadding,
+        margin: `-${ customTopMargin }px auto 0`,
+        textAlign: 'center',
+        fontSize: textSize,
         wordBreak: "break-all",
-        wordWrap: "break-word",
-        fontSize: "14px",
-        textAlign: "center"
+        wordWrap: "break-word"
       };
     }
   }
