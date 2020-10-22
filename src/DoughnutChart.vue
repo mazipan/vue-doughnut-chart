@@ -1,24 +1,43 @@
 <template>
-  <div class="doughnut_chart" style="position:relative;">
-    <svg :width="width" :height="height" viewBox="0 0 200 200" style="stroke-linecap:round;">
+  <div class='doughnut_chart' style='position:relative;'>
+    <svg :width='width' :height='height' viewBox='0 0 200 200' style='stroke-linecap:round;'>
       <!-- Background circle -->
-      <path :d="dBg" fill="transparent" :stroke="backgroundColor" :stroke-width="strokeWidth" />
+      <path :d='dBg' fill='transparent' :stroke='backgroundColor' :stroke-width='strokeWidth' />
       <!-- Move to start position, start drawing arc -->
-      <path :d="d" fill="transparent" :stroke="foregroundColor" :stroke-width="strokeWidth" />
+      <path :d='d' fill='transparent' :stroke='foregroundColor' :stroke-width='strokeWidth' />
     </svg>
-    <div v-if="visibleValue">
-      <template v-if="passTextAsHtml">
-        <div v-if="customText.length" :style="customTextStyle" v-html="customText"></div>
+    <div
+        v-if='visibleValue'
+        class='value-container'
+    >
+      <template v-if='passTextAsHtml'>
+        <div
+            v-if='customText.length'
+            :style='customTextStyle'
+            v-html='customText'
+        ></div>
       </template>
       <template v-else>
         <div
-          v-if="customText.length"
-          v-html="customText"
-          :class="classValue"
-          :style="customTextStyle"
-        ></div>
-        <span v-else-if="visibleEmptyText" :class="classValue" :style="valueStyle">{{ emptyText }}</span>
-        <span v-else :class="classValue" :style="valueStyle">{{ percent }}%</span>
+            v-if='customText.length'
+            v-html='customText'
+            :class='classValue'
+            :style='customTextStyle'
+        />
+        <p
+            v-else-if='visibleEmptyText'
+            :class='classValue'
+            :style='valueStyle'
+        >
+          {{ emptyText }}
+        </p>
+        <h1
+            v-else
+            :class='classValue'
+            :style='valueStyle'
+        >
+          {{ percent + '%' }}
+        </h1>
       </template>
     </div>
   </div>
@@ -74,6 +93,11 @@ export default {
     passTextAsHtml: {
       type: Boolean,
       default: false
+    },
+    customPercentSize: {
+      type: Number,
+      default: 40,
+      required: false
     }
   },
   data() {
@@ -103,21 +127,21 @@ export default {
     },
     // Calculate length of arc in radians
     radians() {
-      const degrees = (this.percent / 100) * 360;
+      const degrees = ( this.percent / 100 ) * 360;
       const value = degrees - 180; // Turn the circle 180 degrees counter clockwise
 
-      return (value * Math.PI) / 180;
+      return ( value * Math.PI ) / 180;
     },
     // If we reach full circle we need to complete the circle, this ties into the rounding error in X coordinate above
     z() {
       return parseInt(this.percent) === 100 ? "z" : "";
     },
     dBg() {
-      return `M ${this.x} ${this.y} A ${this.radius} ${this.radius} 0 1 1 ${this
-        .x - 0.0001} ${this.y} z`;
+      return `M ${ this.x } ${ this.y } A ${ this.radius } ${ this.radius } 0 1 1 ${ this
+          .x - 0.0001 } ${ this.y } z`;
     },
     d() {
-      return `M ${this.x} ${this.y} A ${this.radius} ${this.radius} 0 ${this.largeArc} 1 ${this.endX} ${this.endY} ${this.z}`;
+      return `M ${ this.x } ${ this.y } A ${ this.radius } ${ this.radius } 0 ${ this.largeArc } 1 ${ this.endX } ${ this.endY } ${ this.z }`;
     },
     valueFromBottom() {
       if (this.strokeWidth < 15) {
@@ -134,12 +158,10 @@ export default {
       }
     },
     valueStyle() {
+      let percentSize = (this.customPercentSize && this.customPercentSize < 60) ? this.customPercentSize : false
       return {
         color: this.foregroundColor,
-        bottom: `${this.valueFromBottom}px`,
-        left: `${this.valueFromLeft}px`,
-        position: "absolute",
-        "font-size": "18px"
+        fontSize: `${ percentSize }px`
       };
     },
     visibleEmptyText() {
@@ -148,10 +170,10 @@ export default {
     customTextStyle() {
       return {
         color: this.foregroundColor,
-        width: `${this.width - 6 * this.strokeWidth}px`,
-        height: `${this.height / 3}px`,
-        bottom: `${this.height / 2 - this.strokeWidth * 3}px`,
-        left: `${this.valueFromLeft / 3}px`,
+        width: `${ this.width - 6 * this.strokeWidth }px`,
+        height: `${ this.height / 3 }px`,
+        bottom: `${ this.height / 2 - this.strokeWidth * 3 }px`,
+        left: `${ this.valueFromLeft / 3 }px`,
         position: "absolute",
         verticalAlign: "middle",
         wordBreak: "break-all",
@@ -163,5 +185,21 @@ export default {
   }
 };
 </script>
+<style lang='scss' scoped>
+h1 {
+  margin: 0;
+  padding: 0;
+}
 
-
+.value-container {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+</style>
