@@ -100,6 +100,11 @@ export default {
       default: 2000,
       required: false
     },
+    valueCountUpDelay: {
+      type: Number,
+      default: 500,
+      required: false
+    },
     customPercentSize: {
       type: Number,
       default: 40,
@@ -122,7 +127,7 @@ export default {
       type: Number,
       default: 15,
       required: false
-    },
+    }
   },
   data() {
     return {
@@ -204,13 +209,14 @@ export default {
   },
   watch: {
     percent() {
+      const delay = this.valueCountUpDelay ? this.valueCountUpDelay : 500
       if (this.delayTimer) {
         clearTimeout(this.delayTimer)
         this.delayTimer = null
       }
       this.delayTimer = setTimeout(() => {
         this.countUpPercent()
-      }, 500)
+      }, delay)
     }
   },
   methods: {
