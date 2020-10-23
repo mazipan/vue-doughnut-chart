@@ -1,25 +1,52 @@
 <template>
-  <div class="doughnut_chart" style="position:relative;">
-    <svg :width="width" :height="height" viewBox="0 0 200 200" style="stroke-linecap:round;">
+  <div class='doughnut_chart' style='position:relative;'>
+    <svg :width='width' :height='height' viewBox='0 0 200 200' style='stroke-linecap:round;'>
       <!-- Background circle -->
-      <path :d="dBg" fill="transparent" :stroke="backgroundColor" :stroke-width="strokeWidth" />
+      <path :d='dBg' fill='transparent'
+            :stroke="(backgroundColor && validateColor(backgroundColor)) ? backgroundColor : '#ecf6ff'"
+            :stroke-width='strokeWidth' />
       <!-- Move to start position, start drawing arc -->
-      <path :d="d" fill="transparent" :stroke="foregroundColor" :stroke-width="strokeWidth" />
+      <path :d='d' fill='transparent'
+            :stroke="(foregroundColor && validateColor(foregroundColor)) ? foregroundColor : '#1993ff'"
+            :stroke-width='strokeWidth' />
     </svg>
-    <div v-if="visibleValue">
-      <template v-if="passTextAsHtml">
-        <div v-if="customText.length" :style="customTextStyle" v-html="customText"></div>
+    <div
+        v-if='visibleValue'
+        class='value-container'
+    >
+      <template v-if='passTextAsHtml'>
+        <div
+            v-if='customText.length'
+            :style='customTextStyle'
+            v-html='customText'
+        />
       </template>
       <template v-else>
+        <h1
+            v-if='percent'
+            :class='classValue'
+            :style='valueStyle'
+        >
+          {{ valueCountUp ? countingUpValue + '%' : percent + '%' }}
+        </h1>
         <div
-          v-if="customText.length"
-          v-html="customText"
-          :class="classValue"
-          :style="customTextStyle"
-        ></div>
-        <span v-else-if="visibleEmptyText" :class="classValue" :style="valueStyle">{{ emptyText }}</span>
-        <span v-else :class="classValue" :style="valueStyle">{{ percent }}%</span>
+            v-if='customText.length'
+            v-html='customText'
+            :class='classValue'
+            :style='customTextStyle'
+        />
       </template>
+    </div>
+    <div
+        v-else-if='customText.length'
+        class='value-container'
+    >
+      <div
+          v-if='customText.length'
+          v-html='customText'
+          :class='classValue'
+          :style='customTextStyle'
+      />
     </div>
   </div>
 </template>
@@ -55,29 +82,58 @@ export default {
       type: Number,
       default: 200
     },
+    classValue: {
+      type: String,
+      default: ""
+    },
     visibleValue: {
       type: Boolean,
       default: false
     },
-    emptyText: {
-      type: String,
-      default: ""
+    valueCountUp: {
+      type: Boolean,
+      default: false,
+      required: false
     },
-    classValue: {
-      type: String,
-      default: ""
+    valueCountUpDuration: {
+      type: Number,
+      default: 2000,
+      required: false
+    },
+    valueCountUpDelay: {
+      type: Number,
+      default: 500,
+      required: false
+    },
+    customPercentSize: {
+      type: Number,
+      default: 40,
+      required: false
+    },
+    passTextAsHtml: {
+      type: Boolean,
+      default: false
     },
     customText: {
       type: String,
       default: ""
     },
-    passTextAsHtml: {
-      type: Boolean,
-      default: false
+    customTextColor: {
+      type: String,
+      default: '',
+      required: false
+    },
+    customTextSize: {
+      type: Number,
+      default: 15,
+      required: false
     }
   },
   data() {
-    return {};
+    return {
+      countingUpValue: 0,
+      delayTimer: null
+    };
   },
   computed: {
     // If more than 50% filled we need to switch arc drawing mode from less than 180 deg to more than 180 deg
@@ -103,65 +159,112 @@ export default {
     },
     // Calculate length of arc in radians
     radians() {
-      const degrees = (this.percent / 100) * 360;
+      const degrees = ( this.percent / 100 ) * 360;
       const value = degrees - 180; // Turn the circle 180 degrees counter clockwise
 
-      return (value * Math.PI) / 180;
+      return ( value * Math.PI ) / 180;
     },
     // If we reach full circle we need to complete the circle, this ties into the rounding error in X coordinate above
     z() {
       return parseInt(this.percent) === 100 ? "z" : "";
     },
     dBg() {
-      return `M ${this.x} ${this.y} A ${this.radius} ${this.radius} 0 1 1 ${this
-        .x - 0.0001} ${this.y} z`;
+      return `M ${ this.x } ${ this.y } A ${ this.radius } ${ this.radius } 0 1 1 ${ this
+          .x - 0.0001 } ${ this.y } z`;
     },
     d() {
-      return `M ${this.x} ${this.y} A ${this.radius} ${this.radius} 0 ${this.largeArc} 1 ${this.endX} ${this.endY} ${this.z}`;
-    },
-    valueFromBottom() {
-      if (this.strokeWidth < 15) {
-        return this.height / 2 - this.strokeWidth / 1.5;
-      } else {
-        return this.height / 2 - this.strokeWidth / 3;
-      }
-    },
-    valueFromLeft() {
-      if (this.strokeWidth < 15) {
-        return this.width / 2 - this.strokeWidth;
-      } else {
-        return this.width / 2 - this.strokeWidth;
-      }
+      return `M ${ this.x } ${ this.y } A ${ this.radius } ${ this.radius } 0 ${ this.largeArc } 1 ${ this.endX } ${ this.endY } ${ this.z }`;
     },
     valueStyle() {
+      let percentColor = ( this.foregroundColor && this.validateColor(this.foregroundColor) ) ? this.foregroundColor : '#1993ff'
+      let percentSize = ( this.customPercentSize && this.customPercentSize < 60 ) ? `${ this.customPercentSize }px` : false
       return {
-        color: this.foregroundColor,
-        bottom: `${this.valueFromBottom}px`,
-        left: `${this.valueFromLeft}px`,
-        position: "absolute",
-        "font-size": "18px"
+        color: percentColor,
+        fontSize: percentSize,
+        margin: '0 auto'
       };
-    },
-    visibleEmptyText() {
-      return parseInt(this.percent) === 0 && this.emptyText !== "";
     },
     customTextStyle() {
+      let textColor = ( this.customTextColor && this.validateColor(this.customTextColor) ) ? this.customTextColor : this.foregroundColor
+      let textWidth = this.strokeWidth ? `calc(100% - ${ this.strokeWidth * 2 }px)` : 'calc(100% - 20px)'
+      let textPadding = ( this.strokeWidth && this.strokeWidth > 7 && this.strokeWidth <= 18 ) ? `0 ${ this.strokeWidth }px` : '0 10px'
+      let textSize = ( this.customTextSize && this.customTextSize <= 22 ) ? `${ this.customTextSize }px` : false
+      let customTopMargin = ( this.strokeWidth && this.strokeWidth > 7 && this.strokeWidth <= 18 ) ? this.strokeWidth : 5
       return {
-        color: this.foregroundColor,
-        width: `${this.width - 6 * this.strokeWidth}px`,
-        height: `${this.height / 3}px`,
-        bottom: `${this.height / 2 - this.strokeWidth * 3}px`,
-        left: `${this.valueFromLeft / 3}px`,
-        position: "absolute",
-        verticalAlign: "middle",
+        color: textColor,
+        width: textWidth,
+        padding: textPadding,
+        margin: `-${ customTopMargin }px auto 0`,
+        textAlign: 'center',
+        fontSize: textSize,
         wordBreak: "break-all",
-        wordWrap: "break-word",
-        fontSize: "14px",
-        textAlign: "center"
+        wordWrap: "break-word"
       };
+    }
+  },
+  mounted() {
+    if (this.valueCountUp && this.percent) {
+      this.countUpPercent()
+    }
+  },
+  watch: {
+    percent() {
+      const delay = this.valueCountUpDelay ? this.valueCountUpDelay : 500
+      if (this.delayTimer) {
+        clearTimeout(this.delayTimer)
+        this.delayTimer = null
+      }
+      this.delayTimer = setTimeout(() => {
+        this.countUpPercent()
+      }, delay)
+    }
+  },
+  methods: {
+    validateColor(string) {
+      let s = new Option().style
+      s.color = string
+      // must match a valid css color or hex value
+      return s.color !== '' || /^#([0-9A-F]{3}){1,2}$/i.test(s.color);
+    },
+    countUpPercent() {
+      if (this.percent === this.countingUpValue) {
+        return;
+      }
+      const animationDuration = this.valueCountUpDuration;
+      const frameDuration = 1000 / 60; // Calculate how long each 'frame' should last if we want to update the animation 60 times per second
+      const totalFrames = Math.round(animationDuration / frameDuration); // Use that to calculate how many frames we need to complete the animation
+      const easeOutQuad = t => t * ( 2 - t ); // An ease-out function that slows the count as it progresses
+      let frame = 0; // The animation function, which takes an Element
+      const counter = setInterval(() => {
+        frame++
+        const progress = easeOutQuad(frame / totalFrames) // Calculate our progress as a value between 0 and 1
+        if (this.countingUpValue !== this.percent) {
+          this.countingUpValue = Math.round(this.percent * progress) // Use the progress value to calculate the current count
+        }
+        if (frame === totalFrames) {
+          clearInterval(counter)
+        }
+      }, frameDuration);
+
     }
   }
 };
 </script>
+<style lang='scss' scoped>
+h1 {
+  margin: 0;
+  padding: 0;
+}
 
-
+.value-container {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+</style>

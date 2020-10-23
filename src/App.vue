@@ -2,44 +2,45 @@
   <div>
     <div class="columns">
       <div class="column">
-        <DoughnutChart 
-          :percent="percent" 
+        <DoughnutChart
+          :percent="percent"
           :visibleValue="true"/>
       </div>
       <div class="column">
-        <DoughnutChart 
-          :percent="percent" 
-          :visibleValue="true" 
+        <DoughnutChart
+          :percent="percent"
+          :visibleValue="true"
           foregroundColor="green"
           backgroundColor="#d3fde2"
           :strokeWidth="20"/>
       </div>
       <div class="column">
-        <DoughnutChart 
-          :percent="percent" 
-          :visibleValue="true" 
+        <DoughnutChart
+          :percent="percent"
+          :visibleValue="true"
           foregroundColor="red"
           :strokeWidth="30"/>
       </div>
       <div class="column">
-        <DoughnutChart 
-          :percent="percent" 
-          :visibleValue="true" 
+        <DoughnutChart
+          :percent="percent"
+          :visibleValue="true"
           :foregroundColor="'purple'"
-          :emptyText="'N/A'"
+          :value-count-up="true"
+          :value-count-up-duration="3000"
           />
       </div>
       <div class="column">
-        <DoughnutChart 
-          :percent="percent" 
-          :visibleValue="true" 
+        <DoughnutChart
+          :percent="percent"
+          :visibleValue="true"
           :foregroundColor="'black'"
           :customText="'My value is over <br/> 9000'"
           />
     </div>
   </div>
     <div class="centered-div">
-      <input type="range" min="0" step="1" max="100" v-model="percent"><br> 
+      <input type="range" min="0" step="1" max="100" v-model="percent"><br>
       <h3 class="subtitle">{{percent}}%</h3>
     </div>
   </div>
@@ -154,6 +155,12 @@ input[type=range]:focus::-ms-fill-lower {
 }
 input[type=range]:focus::-ms-fill-upper {
   background: #ac51b5;
+}
+.column {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
 }
 </style>
 

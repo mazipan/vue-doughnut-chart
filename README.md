@@ -30,18 +30,25 @@ export default {
 
 ## Props
 
-| Props Name          | Type      | Default Value |Description                   | 
-|---------------------|-----------|---------------|------------------------------|
-| `percent`           | Number    |  0            |                              |
-| `foregroundColor`   | String    |  '#1993ff'    |                              |
-| `backgroundColor`   | String    |  '#ecf6ff'    |                              |
-| `strokeWidth`       | Number    |  10           |                              |
-| `radius`            | Number    |  85           |                              |
-| `width`             | Number    |  200          |                              |
-| `height`            | Number    |  200          |                              |
-| `visibleValue`      | Boolean   |  false        |                              |
-| `emptyText`         | String    |  ''           |                              |
-| `classValue`        | String    |  ''           |                              |
+| Props Name            | Type      | Default Value |Description                                  | 
+|-----------------------|-----------|---------------|---------------------------------------------|
+| `percent`             | Number    |  0            |                                             |
+| `foregroundColor`     | String    |  '#1993ff'    |                                             |
+| `backgroundColor`     | String    |  '#ecf6ff'    |                                             |
+| `strokeWidth`         | Number    |  10           |                                             |
+| `radius`              | Number    |  85           |                                             |
+| `width`               | Number    |  200          |                                             |
+| `height`              | Number    |  200          |                                             |
+| `classValue`          | String    |  ''           |                                             |
+| `visibleValue`        | Boolean   |  false        |                                             |
+| `valueCountUp`        | Boolean   |  false        |                                             |
+| `valueCountUpDuration`| Number    |  2000         | Number in milliseconds                      |
+| `valueCountUpDelay`   | Number    |  500          | Percent count-up delay (for changing values)|
+| `customPercentSize`   | Number    |  40           | Percent font size in pixels (max 60)        |
+| `passTextAsHtml`      | Boolean   |  false        | Allows to add simple html into label        |
+| `customText`          | String    |  ''           | Label value                                 |
+| `customTextColor`     | String    |  '#1993ff'    | Valid HEX color code or CSS color for label |
+| `customTextSize`      | Number    |  15           | Label font size in pixels (max 22)          |
 
 -----
 
