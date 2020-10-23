@@ -5,7 +5,6 @@
       <path :d='dBg' fill='transparent'
             :stroke="(backgroundColor && validateColor(backgroundColor)) ? backgroundColor : '#ecf6ff'"
             :stroke-width='strokeWidth'
-            class='smooth'
       />
       <!-- Move to start position, start drawing arc -->
       <path :d='d' fill='transparent'
@@ -272,13 +271,5 @@ h1 {
   position: absolute;
   top: 0;
   left: 0;
-}
-
-.smooth {
-  -webkit-transition: all .15s ease;
-  -moz-transition: all .15s ease;
-  -ms-transition: all .15s ease;
-  -o-transition: all .15s ease;
-  transition: all .15s ease;
 }
 </style>
