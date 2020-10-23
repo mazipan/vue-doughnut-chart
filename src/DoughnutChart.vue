@@ -4,13 +4,11 @@
       <!-- Background circle -->
       <path :d='dBg' fill='transparent'
             :stroke="(backgroundColor && validateColor(backgroundColor)) ? backgroundColor : '#ecf6ff'"
-            :stroke-width='strokeWidth'
-      />
+            :stroke-width='strokeWidth' />
       <!-- Move to start position, start drawing arc -->
       <path :d='d' fill='transparent'
             :stroke="(foregroundColor && validateColor(foregroundColor)) ? foregroundColor : '#1993ff'"
-            :stroke-width='strokeWidth'
-      />
+            :stroke-width='strokeWidth' />
     </svg>
     <div
         v-if='visibleValue'
