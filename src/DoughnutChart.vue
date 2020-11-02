@@ -138,7 +138,8 @@ export default {
   computed: {
     // If more than 50% filled we need to switch arc drawing mode from less than 180 deg to more than 180 deg
     largeArc() {
-      return parseInt(this.percent) < 50 ? 0 : 1;
+      const number = this.valueCountUp ? this.countingUpValue : this.percent
+      return parseInt(number) < 50 ? 0 : 1;
     },
     // Where to put x coordinate of center of circle
     x() {
@@ -159,14 +160,16 @@ export default {
     },
     // Calculate length of arc in radians
     radians() {
-      const degrees = ( this.percent / 100 ) * 360;
+      const number = this.valueCountUp ? this.countingUpValue : this.percent
+      const degrees = ( number / 100 ) * 360;
       const value = degrees - 180; // Turn the circle 180 degrees counter clockwise
 
       return ( value * Math.PI ) / 180;
     },
     // If we reach full circle we need to complete the circle, this ties into the rounding error in X coordinate above
     z() {
-      return parseInt(this.percent) === 100 ? "z" : "";
+      const number = this.valueCountUp ? this.countingUpValue : this.percent
+      return parseInt(number) === 100 ? "z" : "";
     },
     dBg() {
       return `M ${ this.x } ${ this.y } A ${ this.radius } ${ this.radius } 0 1 1 ${ this
