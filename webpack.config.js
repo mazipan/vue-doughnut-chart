@@ -1,9 +1,6 @@
 const path = require('path');
-const fs = require('fs');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const CopyWebpackPlugin = require('copy-webpack-plugin')
-const CompressionPlugin = require("compression-webpack-plugin")
 const { GenerateSW } = require('workbox-webpack-plugin')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 
@@ -76,15 +73,6 @@ const config = {
         NODE_ENV: '"'+NODE_ENV+'"'
       }
     }),
-    new CompressionPlugin({
-      algorithm: 'gzip'
-    }),
-    // new CopyWebpackPlugin([
-    //   {
-    //     from: 'demo/favicon',
-    //     to: 'favicon'
-    //   }
-    // ]),
     new GenerateSW({
       swDest: 'sw.js'
     })

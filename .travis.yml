@@ -8,7 +8,7 @@ cache:
     - node_modules
 script:
   - npm run lint
-  - npm run build-demo
+  - npm run build
 deploy:
   provider: pages
   skip-cleanup: true
